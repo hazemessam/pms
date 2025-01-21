@@ -51,6 +51,9 @@ export class MedicalRecordsService {
 
     const medicalRecords = await this.medicalRecordsRepo.find({
       where: { patient },
+      order: {
+        createdAt: 'DESC',
+      },
     });
 
     return this.mapper.mapArray(
