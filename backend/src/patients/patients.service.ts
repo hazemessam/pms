@@ -86,11 +86,22 @@ export class PatientsService {
     await this.patientsRepo.save(updatedPatient);
   }
 
+  async deletePatient(patientId: string): Promise<void> {
+    const isPatientExist = await this.patientsRepo.exists({
+      where: { id: patientId },
+    });
+    if (!isPatientExist) {
+      throw new NotFoundException('There is no patient with the provided id!');
+    }
+
+    await this.patientsRepo.delete({ id: patientId });
+  }
+
   private async validatePhoneNumberAvailability(phoneNumber: string) {
-    const isPhoneNumberExists = await this.patientsRepo.exists({
+    const isPhoneNumberExist = await this.patientsRepo.exists({
       where: { phoneNumber },
     });
-    if (isPhoneNumberExists) {
+    if (isPhoneNumberExist) {
       throw new UnprocessableEntityException(
         'There is already patient with the provided phone number!',
       );

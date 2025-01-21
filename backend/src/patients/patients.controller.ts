@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -43,5 +44,10 @@ export class PatientsController {
     @Body() updatePatientReqDto: UpdatePatientReqDto,
   ): Promise<void> {
     return this.patientsService.updatePatient(patientId, updatePatientReqDto);
+  }
+
+  @Delete(':patientId')
+  async deletePatient(@Param('patientId') patientId: string): Promise<void> {
+    return this.patientsService.deletePatient(patientId);
   }
 }
