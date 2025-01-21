@@ -5,8 +5,7 @@ export class AddPatientsTable1737227964392 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE patients (
         id BIGSERIAL PRIMARY KEY,
-        first_name VARCHAR(50) NOT NULL,
-        last_name VARCHAR(50) NOT NULL,
+        name VARCHAR(50) NOT NULL,
         date_of_birth DATE NOT NULL,
         phone_number VARCHAR(20)
       );
