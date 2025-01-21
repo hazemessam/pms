@@ -66,7 +66,9 @@ export class PatientsService {
       where: { id: patientId },
     });
     if (!patient) {
-      throw new NotFoundException('There is no patient with the provided id!');
+      throw new NotFoundException(
+        `There is no patient with the following id ${patientId}`,
+      );
     }
 
     if (
@@ -91,7 +93,9 @@ export class PatientsService {
       where: { id: patientId },
     });
     if (!isPatientExist) {
-      throw new NotFoundException('There is no patient with the provided id!');
+      throw new NotFoundException(
+        `There is no patient with the following id ${patientId}`,
+      );
     }
 
     await this.patientsRepo.delete({ id: patientId });
@@ -103,7 +107,7 @@ export class PatientsService {
     });
     if (isPhoneNumberExist) {
       throw new UnprocessableEntityException(
-        'There is already patient with the provided phone number!',
+        `There is already patient with the following phone number ${phoneNumber}`,
       );
     }
   }
