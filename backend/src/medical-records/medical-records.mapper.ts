@@ -3,6 +3,7 @@ import { createMap, type Mapper } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
 import { AddMedicalRecordReqDto } from './dtos/add-medical-record.dto';
 import { MedicalRecord } from './medical-record.entity';
+import { ReadMedicalRecordResDto } from './dtos/read-medical-record.dto';
 
 @Injectable()
 export class MedicalRecordsMapper extends AutomapperProfile {
@@ -13,6 +14,7 @@ export class MedicalRecordsMapper extends AutomapperProfile {
   override get profile() {
     return (mapper) => {
       createMap(mapper, AddMedicalRecordReqDto, MedicalRecord);
+      createMap(mapper, MedicalRecord, ReadMedicalRecordResDto);
     };
   }
 }

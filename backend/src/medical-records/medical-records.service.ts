@@ -6,6 +6,7 @@ import { Mapper } from '@automapper/core';
 import { MedicalRecord } from './medical-record.entity';
 import { AddMedicalRecordReqDto } from './dtos/add-medical-record.dto';
 import { PatientsService } from 'src/patients/patients.service';
+import { ReadMedicalRecordResDto } from './dtos/read-medical-record.dto';
 
 @Injectable()
 export class MedicalRecordsService {
@@ -35,5 +36,26 @@ export class MedicalRecordsService {
     medicalRecord.patient = patient;
 
     await this.medicalRecordsRepo.save(medicalRecord);
+  }
+
+  async getPatientMedicalRecords(
+    patientId: string,
+  ): Promise<ReadMedicalRecordResDto[]> {
+    const patient = await this.patientsService.findPatientById(patientId);
+    if (!patient) {
+      throw new NotFoundException(
+        `There is no patient with the following id ${patientId}`,
+      );
+    }
+
+    const medicalRecords = await this.medicalRecordsRepo.find({
+      where: { patient },
+    });
+
+    return this.mapper.mapArray(
+      medicalRecords,
+      MedicalRecord,
+      ReadMedicalRecordResDto,
+    );
   }
 }

@@ -19,6 +19,7 @@ import {
 import { UpdatePatientReqDto } from './dtos/update-patient.dto';
 import { AddMedicalRecordReqDto } from 'src/medical-records/dtos/add-medical-record.dto';
 import { MedicalRecordsService } from 'src/medical-records/medical-records.service';
+import { ReadMedicalRecordResDto } from 'src/medical-records/dtos/read-medical-record.dto';
 
 @Controller('patients')
 export class PatientsController {
@@ -65,5 +66,12 @@ export class PatientsController {
       patientId,
       addMedicalRecordReqDto,
     );
+  }
+
+  @Get(':patientId/medical-records')
+  async getPatientMedicalRecords(
+    @Param('patientId') patientId: string,
+  ): Promise<ReadMedicalRecordResDto[]> {
+    return this.medicalRecordsService.getPatientMedicalRecords(patientId);
   }
 }
