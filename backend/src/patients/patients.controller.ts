@@ -17,10 +17,15 @@ import {
   PaginationReqDto,
 } from 'src/common/dtos/pagination.dto';
 import { UpdatePatientReqDto } from './dtos/update-patient.dto';
+import { AddMedicalRecordReqDto } from 'src/medical-records/dtos/add-medical-record.dto';
+import { MedicalRecordsService } from 'src/medical-records/medical-records.service';
 
 @Controller('patients')
 export class PatientsController {
-  constructor(private patientsService: PatientsService) {}
+  constructor(
+    private patientsService: PatientsService,
+    private medicalRecordsService: MedicalRecordsService,
+  ) {}
 
   @Post()
   async addPatient(@Body() addPatientReqDto: AddPatientReqDto): Promise<void> {
@@ -49,5 +54,16 @@ export class PatientsController {
   @Delete(':patientId')
   async deletePatient(@Param('patientId') patientId: string): Promise<void> {
     return this.patientsService.deletePatient(patientId);
+  }
+
+  @Post(':patientId/medical-records')
+  async addMedicalRecord(
+    @Param('patientId') patientId: string,
+    @Body() addMedicalRecordReqDto: AddMedicalRecordReqDto,
+  ): Promise<void> {
+    return this.medicalRecordsService.addMedicalRecord(
+      patientId,
+      addMedicalRecordReqDto,
+    );
   }
 }

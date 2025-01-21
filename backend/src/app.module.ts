@@ -7,6 +7,7 @@ import { typeOrmModuleConfig } from './config/typeorm.config';
 import { PatientsModule } from './patients/patients.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
+import { MedicalRecordsModule } from './medical-records/medical-records.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { classes } from '@automapper/classes';
     TypeOrmModule.forRoot(typeOrmModuleConfig),
     AutomapperModule.forRoot({ strategyInitializer: classes() }),
     PatientsModule,
+    MedicalRecordsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

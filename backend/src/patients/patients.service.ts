@@ -36,6 +36,12 @@ export class PatientsService {
     await this.patientsRepo.save(patient);
   }
 
+  async findPatientById(patientId: string): Promise<Patient | null> {
+    return this.patientsRepo.findOne({
+      where: { id: patientId },
+    });
+  }
+
   async getPatients(
     filterPatientsReqDto: FilterPatientsReqDto,
     paginationReqDto: PaginationReqDto,
@@ -62,9 +68,7 @@ export class PatientsService {
     patientId: string,
     updatePatientReqDto: UpdatePatientReqDto,
   ): Promise<void> {
-    const patient = await this.patientsRepo.findOne({
-      where: { id: patientId },
-    });
+    const patient = await this.findPatientById(patientId);
     if (!patient) {
       throw new NotFoundException(
         `There is no patient with the following id ${patientId}`,
