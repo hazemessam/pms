@@ -7,7 +7,7 @@ export class AddPatientsTable1737227964392 implements MigrationInterface {
         id BIGSERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         date_of_birth DATE NOT NULL,
-        phone_number VARCHAR(20)
+        phone_number VARCHAR(20) UNIQUE NOT NULL
       );
     `);
   }
