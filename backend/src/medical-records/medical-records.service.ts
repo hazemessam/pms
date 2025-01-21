@@ -7,6 +7,7 @@ import { MedicalRecord } from './medical-record.entity';
 import { AddMedicalRecordReqDto } from './dtos/add-medical-record.dto';
 import { PatientsService } from 'src/patients/patients.service';
 import { ReadMedicalRecordResDto } from './dtos/read-medical-record.dto';
+import { UpdateMedicalRecordReqDto } from './dtos/update-medical-record.dto';
 
 @Injectable()
 export class MedicalRecordsService {
@@ -57,5 +58,26 @@ export class MedicalRecordsService {
       MedicalRecord,
       ReadMedicalRecordResDto,
     );
+  }
+
+  async updateMedicalRecord(
+    medicalRecordId: string,
+    updateMedicalRecordReqDto: UpdateMedicalRecordReqDto,
+  ): Promise<void> {
+    const medicalRecord = await this.medicalRecordsRepo.findOne({
+      where: { id: medicalRecordId },
+    });
+    if (!medicalRecord) {
+      throw new NotFoundException(
+        `There is no medical record with the following id ${medicalRecordId}`,
+      );
+    }
+
+    const updateMedicalRecord = this.medicalRecordsRepo.merge(
+      medicalRecord,
+      updateMedicalRecordReqDto,
+    );
+
+    await this.medicalRecordsRepo.save(updateMedicalRecord);
   }
 }
