@@ -1,8 +1,14 @@
 import { AutoMap } from '@automapper/classes';
-import { IsDateString, IsPhoneNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
 
 export class AddPatientReqDto {
   @IsString()
+  @IsNotEmpty()
   @AutoMap()
   name: string;
 
