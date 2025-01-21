@@ -1,4 +1,8 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from './patient.entity';
 import { ILike, Repository } from 'typeorm';
@@ -11,6 +15,7 @@ import {
   PaginatedDataResDto,
   PaginationReqDto,
 } from 'src/common/dtos/pagination.dto';
+import { UpdatePatientReqDto } from './dtos/update-patient.dto';
 
 @Injectable()
 export class PatientsService {
@@ -20,15 +25,7 @@ export class PatientsService {
   ) {}
 
   async addPatient(addPatientReqDto: AddPatientReqDto): Promise<void> {
-    const isPhoneNumberExists = await this.patientsRepo.exists({
-      where: { phoneNumber: addPatientReqDto.phoneNumber },
-    });
-
-    if (isPhoneNumberExists) {
-      throw new UnprocessableEntityException(
-        'There is already patient with the provided phone number!',
-      );
-    }
+    await this.validatePhoneNumberAvailability(addPatientReqDto.phoneNumber);
 
     const patient = this.mapper.map(
       addPatientReqDto,
@@ -59,5 +56,44 @@ export class PatientsService {
     };
 
     return res;
+  }
+
+  async updatePatient(
+    patientId: string,
+    updatePatientReqDto: UpdatePatientReqDto,
+  ): Promise<void> {
+    const patient = await this.patientsRepo.findOne({
+      where: { id: patientId },
+    });
+    if (!patient) {
+      throw new NotFoundException('There is no patient with the provided id!');
+    }
+
+    if (
+      updatePatientReqDto.phoneNumber &&
+      updatePatientReqDto.phoneNumber != patient.phoneNumber
+    ) {
+      await this.validatePhoneNumberAvailability(
+        updatePatientReqDto.phoneNumber,
+      );
+    }
+
+    const updatedPatient = this.patientsRepo.merge(
+      patient,
+      updatePatientReqDto,
+    );
+
+    await this.patientsRepo.save(updatedPatient);
+  }
+
+  private async validatePhoneNumberAvailability(phoneNumber: string) {
+    const isPhoneNumberExists = await this.patientsRepo.exists({
+      where: { phoneNumber },
+    });
+    if (isPhoneNumberExists) {
+      throw new UnprocessableEntityException(
+        'There is already patient with the provided phone number!',
+      );
+    }
   }
 }

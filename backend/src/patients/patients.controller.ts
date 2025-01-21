@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AddPatientReqDto } from './dtos/add-patient.dto';
 import { PatientsService } from './patients.service';
 import { FilterPatientsReqDto } from './dtos/filter-patients.dto';
@@ -7,6 +15,7 @@ import {
   PaginatedDataResDto,
   PaginationReqDto,
 } from 'src/common/dtos/pagination.dto';
+import { UpdatePatientReqDto } from './dtos/update-patient.dto';
 
 @Controller('patients')
 export class PatientsController {
@@ -26,5 +35,13 @@ export class PatientsController {
       filterPatientsReqDto,
       paginationReqDto,
     );
+  }
+
+  @Patch(':patientId')
+  async updatePatient(
+    @Param('patientId') patientId: string,
+    @Body() updatePatientReqDto: UpdatePatientReqDto,
+  ): Promise<void> {
+    return this.patientsService.updatePatient(patientId, updatePatientReqDto);
   }
 }
