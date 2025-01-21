@@ -80,4 +80,17 @@ export class MedicalRecordsService {
 
     await this.medicalRecordsRepo.save(updateMedicalRecord);
   }
+
+  async deleteMedicalRecord(medicalRecordId: string): Promise<void> {
+    const isMedicalRecordExist = await this.medicalRecordsRepo.exists({
+      where: { id: medicalRecordId },
+    });
+    if (!isMedicalRecordExist) {
+      throw new NotFoundException(
+        `There is no medical record with the following id ${medicalRecordId}`,
+      );
+    }
+
+    await this.medicalRecordsRepo.delete({ id: medicalRecordId });
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch } from '@nestjs/common';
 import { MedicalRecordsService } from './medical-records.service';
 import { UpdateMedicalRecordReqDto } from './dtos/update-medical-record.dto';
 
@@ -15,5 +15,12 @@ export class MedicalRecordsController {
       medicalRecordId,
       updateMedicalRecordReqDto,
     );
+  }
+
+  @Delete(':medicalRecordId')
+  async deleteMedicalRecord(
+    @Param('medicalRecordId') medicalRecordId: string,
+  ): Promise<void> {
+    return this.medicalRecordsService.deleteMedicalRecord(medicalRecordId);
   }
 }
