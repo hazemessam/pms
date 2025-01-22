@@ -8,6 +8,8 @@ import { PatientsModule } from './patients/patients.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { MedicalRecordsModule } from './medical-records/medical-records.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { MedicalRecordsModule } from './medical-records/medical-records.module';
     AutomapperModule.forRoot({ strategyInitializer: classes() }),
     PatientsModule,
     MedicalRecordsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
