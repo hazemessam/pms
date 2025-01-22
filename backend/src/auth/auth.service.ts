@@ -5,6 +5,7 @@ import { User, UserRole } from 'src/users/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { SignInReqDto, SignInResDto } from './dtos/sign-in.dto';
+import { AuthPayloadDto } from './dtos/auth-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -48,7 +49,7 @@ export class AuthService {
   }
 
   private async generateAccessToken(user: User): Promise<string> {
-    const payload = {
+    const payload: AuthPayloadDto = {
       sub: user.id,
       role: user.role,
     };

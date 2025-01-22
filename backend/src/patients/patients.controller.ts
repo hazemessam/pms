@@ -20,7 +20,10 @@ import { UpdatePatientReqDto } from './dtos/update-patient.dto';
 import { AddMedicalRecordReqDto } from 'src/medical-records/dtos/add-medical-record.dto';
 import { MedicalRecordsService } from 'src/medical-records/medical-records.service';
 import { ReadMedicalRecordResDto } from 'src/medical-records/dtos/read-medical-record.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRole } from 'src/users/user.entity';
 
+@Roles(UserRole.ADMIN)
 @Controller('patients')
 export class PatientsController {
   constructor(
@@ -28,11 +31,13 @@ export class PatientsController {
     private medicalRecordsService: MedicalRecordsService,
   ) {}
 
+  @Roles(UserRole.PROVIDER)
   @Post()
   async addPatient(@Body() addPatientReqDto: AddPatientReqDto): Promise<void> {
     return this.patientsService.addPatient(addPatientReqDto);
   }
 
+  @Roles(UserRole.PROVIDER)
   @Get()
   async getPatients(
     @Query() filterPatientsReqDto: FilterPatientsReqDto,
@@ -44,6 +49,7 @@ export class PatientsController {
     );
   }
 
+  @Roles(UserRole.PROVIDER)
   @Patch(':patientId')
   async updatePatient(
     @Param('patientId') patientId: string,
@@ -57,6 +63,7 @@ export class PatientsController {
     return this.patientsService.deletePatient(patientId);
   }
 
+  @Roles(UserRole.PROVIDER)
   @Post(':patientId/medical-records')
   async addMedicalRecord(
     @Param('patientId') patientId: string,
@@ -68,6 +75,7 @@ export class PatientsController {
     );
   }
 
+  @Roles(UserRole.PROVIDER)
   @Get(':patientId/medical-records')
   async getPatientMedicalRecords(
     @Param('patientId') patientId: string,
