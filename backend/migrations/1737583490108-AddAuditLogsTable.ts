@@ -1,20 +1,21 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddMedicalRecordsTable1737250120742 implements MigrationInterface {
+export class AddAuditLogsTable1737583490108 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      CREATE TABLE medical_records (
+      CREATE TABLE audit_logs (
         id BIGSERIAL PRIMARY KEY,
-        note TEXT NOT NULL,
-        created_at DATE NOT NULL,
-        patient_id BIGINT REFERENCES patients(id) NOT NULL
+        user_id BIGINT REFERENCES users(id) NOT NULL,
+        action VARCHAR NOT NULL,
+        payload JSON,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      DROP TABLE medical_records;
+      DROP TABLE audit_logs;
     `);
   }
 }

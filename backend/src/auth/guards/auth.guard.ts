@@ -11,12 +11,15 @@ import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import { UserRole } from 'src/users/user.entity';
 import { ROLES } from '../decorators/roles.decorator';
 import { AuthPayloadDto } from '../dtos/auth-payload.dto';
+import { ClsService } from 'nestjs-cls';
+import { CustomClsStore } from 'src/config/cls.config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private clsService: ClsService<CustomClsStore>,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -39,6 +42,8 @@ export class AuthGuard implements CanActivate {
     if (!this.isAuthorized(context, payload.role)) {
       throw new ForbiddenException();
     }
+
+    this.clsService.set('authPayload', payload);
 
     return true;
   }

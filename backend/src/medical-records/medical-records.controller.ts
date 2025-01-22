@@ -3,7 +3,9 @@ import { MedicalRecordsService } from './medical-records.service';
 import { UpdateMedicalRecordReqDto } from './dtos/update-medical-record.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Auditable } from 'src/auditing/decorators/auditing.decorator';
 
+@Auditable()
 @Roles(UserRole.ADMIN)
 @Controller('medical-records')
 export class MedicalRecordsController {

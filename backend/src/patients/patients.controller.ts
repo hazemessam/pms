@@ -22,7 +22,9 @@ import { MedicalRecordsService } from 'src/medical-records/medical-records.servi
 import { ReadMedicalRecordResDto } from 'src/medical-records/dtos/read-medical-record.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Auditable } from 'src/auditing/decorators/auditing.decorator';
 
+@Auditable()
 @Roles(UserRole.ADMIN)
 @Controller('patients')
 export class PatientsController {
