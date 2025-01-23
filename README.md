@@ -23,19 +23,19 @@ Backend for patient management system.
 1. Clone the repo
 
    ```bash
-   $ git clone https://github.com/hazemessam/pms.git
+   git clone https://github.com/hazemessam/pms.git
    ```
 
 2. Move to the project directory
 
    ```bash
-   $ cd pms
+   cd pms
    ```
 
 3. Add `.env` file by cloning the `.env.example` file
 
    ```bash
-   $ cp .env.example .env
+   cp .env.example .env
    ```
 
 4. Set the following env vars at the `.env` file
@@ -60,7 +60,7 @@ Backend for patient management system.
 5. Build and run the docker containers
 
    ```bash
-   $ docker compose up --build
+   docker compose up --build
    ```
 
 ## API Docs
