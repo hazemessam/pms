@@ -18,7 +18,7 @@ Backend for patient management system.
 - Docker
 - Swagger
 
-## Project setup
+## Project Setup
 
 1. Clone the repo
 
