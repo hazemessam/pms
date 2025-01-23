@@ -5,6 +5,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { AuditingInterceptor } from './auditing/interceptors/auditing.interceptor';
 import { AuthService } from './auth/auth.service';
+import { setupSwagger } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(app.get(AuditingInterceptor));
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
   app.enableCors();
+
+  await setupSwagger(app);
 
   await app.get(AuthService).registerInitialAdmin();
 

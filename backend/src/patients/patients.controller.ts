@@ -23,8 +23,10 @@ import { ReadMedicalRecordResDto } from 'src/medical-records/dtos/read-medical-r
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
 import { Auditable } from 'src/auditing/decorators/auditing.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Auditable()
+@ApiBearerAuth()
 @Roles(UserRole.ADMIN)
 @Controller('patients')
 export class PatientsController {
