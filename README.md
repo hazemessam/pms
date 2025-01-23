@@ -2,6 +2,13 @@
 
 Backend for patient management system.
 
+## Content
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Setup](#project-setup)
+- [API Docs](#api-docs)
+
 ## Features
 
 - Allow healthcare providers to manage patients and their medial history.
