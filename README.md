@@ -60,7 +60,7 @@ Backend for patient management system.
 5. Build and run the docker containers
 
    ```bash
-     $ docker compose up --build
+   $ docker compose up --build
    ```
 
 ## API Docs
