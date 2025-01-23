@@ -10,12 +10,12 @@ export class PaginationReqDto {
   @IsPositive()
   @IsOptional()
   @Transform(({ value }) => Number(value))
-  page: number = 1;
+  page?: number = 1;
 
   @IsPositive()
   @IsOptional()
   @Transform(({ value }) => Number(value))
-  size: number = 50;
+  size?: number = 50;
 
   get skip() {
     return (this.page - 1) * this.size;
